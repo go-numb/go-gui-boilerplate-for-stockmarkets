@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"log"
+	"path/filepath"
 
 	"github.com/asticode/go-astikit"
 	"github.com/asticode/go-astilectron"
@@ -13,6 +14,9 @@ import (
 const (
 	isElecton = true
 )
+
+// Set logger
+var l = log.New(log.Writer(), log.Prefix(), log.Flags())
 
 func main() {
 	go Serve()
@@ -26,8 +30,6 @@ func main() {
 }
 
 func Electon() {
-	// Set logger
-	l := log.New(log.Writer(), log.Prefix(), log.Flags())
 
 	// Create astilectron
 	a, err := astilectron.New(l, astilectron.Options{
@@ -80,6 +82,13 @@ func Lorca() {
 func Serve() {
 	e := echo.New()
 
-	e.Static("/", "./frontend/dist")
+	// Cross compile
+	abs, err := filepath.Abs("./frontend/dist")
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println("----------", abs)
+	l.Println("----------", abs)
+	e.Static("/", abs)
 	e.Logger.Fatal(e.Start(":8000"))
 }

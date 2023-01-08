@@ -6,3 +6,14 @@
 - Vue3 build to dist.
 - Choose Electron or Lorca views GUI, at go served localhost.
 - Blank Methods, choose go api or axios in html.
+
+
+## Cross Compile
+※ **Describe absolute paths with import filepath**  
+※ **abs, err := filepath.Abs("./")**
+``` cmd
+$ GOOS=darwin GOARCH=amd64
+$ go build main.app main.go // for Mac
+$ GOOS=windows GOARCH=amd64
+$ go build main.go // for Windows
+```
